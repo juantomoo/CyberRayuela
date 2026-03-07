@@ -1,0 +1,117 @@
+{
+  "locations": [
+    {
+      "id": "pont-des-arts",
+      "name": "Pont des Arts",
+      "lat": 48.8583,
+      "lng": 2.3374,
+      "chapter": 1,
+      "quote": "Ya su silueta delgada se inscribía en el Pont des Arts, a veces andando de un lado a otro, a veces detenida en el pretil de hierro, inclinada sobre el agua."
+    },
+    {
+      "id": "rue-de-la-huchette",
+      "name": "Rue de la Huchette",
+      "lat": 48.8524,
+      "lng": 2.3469,
+      "chapter": 73,
+      "quote": "Quién nos curará del fuego sordo, del fuego sin color que corre al anochecer por la rue de la Huchette."
+    },
+    {
+      "id": "quai-de-conti",
+      "name": "Quai de Conti",
+      "lat": 48.8568,
+      "lng": 2.3385,
+      "chapter": 1,
+      "quote": "Viniendo por la rue de Seine, al arco que da al Quai de Conti, y apenas la luz de ceniza y olivo que flota sobre el río."
+    },
+    {
+      "id": "rue-de-seine",
+      "name": "Rue de Seine",
+      "lat": 48.8552,
+      "lng": 2.3371,
+      "chapter": 1,
+      "quote": "Tantas veces me había bastado asomarme, viniendo por la rue de Seine."
+    },
+    {
+      "id": "boulevard-sebastopol",
+      "name": "Boulevard de Sébastopol",
+      "lat": 48.8630,
+      "lng": 2.3490,
+      "chapter": 1,
+      "quote": "Quizá estuviera charlando con una vendedora de papas fritas o comiendo una salchicha caliente en el boulevard de Sébastopol."
+    },
+    {
+      "id": "saint-germain",
+      "name": "Saint-Germain-des-Prés",
+      "lat": 48.8539,
+      "lng": 2.3338,
+      "chapter": 4,
+      "quote": "Así habían empezado a andar por un París fabuloso, dejándose llevar por los signos de la noche."
+    },
+    {
+      "id": "rue-du-cherche-midi",
+      "name": "Rue du Cherche-Midi",
+      "lat": 48.8476,
+      "lng": 2.3261,
+      "chapter": 23,
+      "quote": "Empezaba a distanciar los adioses del Club de la Serpiente, desde los tiempos del Cherche-Midi."
+    },
+    {
+      "id": "quai-megisserie",
+      "name": "Quai de la Mégisserie",
+      "lat": 48.8570,
+      "lng": 2.3450,
+      "chapter": 1,
+      "quote": "Nos gustaba andar por el Quai de la Mégisserie, a la hora en que los vendedores de peces exóticos terminaban sus transacciones."
+    },
+    {
+      "id": "marais",
+      "name": "Le Marais",
+      "lat": 48.8566,
+      "lng": 2.3616,
+      "chapter": 1,
+      "quote": "Su fina cara de translúcida piel se asomaría a viejos portales en el ghetto del Marais."
+    },
+    {
+      "id": "tour-saint-jacques",
+      "name": "Tour Saint-Jacques",
+      "lat": 48.8580,
+      "lng": 2.3490,
+      "chapter": 1,
+      "quote": "Pasar bajo la sombra violeta de la Tour Saint-Jacques."
+    },
+    {
+      "id": "rue-valette",
+      "name": "Rue Valette",
+      "lat": 48.8478,
+      "lng": 2.3477,
+      "chapter": 5,
+      "quote": "La primera vez había sido un hotel de la rue Valette, andaban por ahí vagando y parándose en los portales."
+    },
+    {
+      "id": "cluny",
+      "name": "Musée de Cluny",
+      "lat": 48.8509,
+      "lng": 2.3443,
+      "chapter": 73,
+      "quote": "Barrio de clochards, de viejos que duermen al pie de las tapias del Musée de Cluny."
+    },
+    {
+      "id": "jardin-plantes",
+      "name": "Jardin des Plantes",
+      "lat": 48.8435,
+      "lng": 2.3596,
+      "chapter": 28,
+      "quote": "Se sentaban en el Jardin des Plantes para hablar del Cuaderno de Bitácora de Morelli."
+    },
+    {
+      "id": "buenos-aires",
+      "name": "Buenos Aires (Oliveira regresa)",
+      "lat": -34.6037,
+      "lng": -58.3816,
+      "chapter": 37,
+      "quote": "Del lado de acá: el regreso de Oliveira a Buenos Aires, la vida con Gekrepten, Talita y Traveler."
+    }
+  ],
+  "description": "Ubicaciones mencionadas en Rayuela de Julio Cortázar, con coordenadas GPS y citas del libro."
+}

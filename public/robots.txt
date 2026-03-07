@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cyberrayuela.pages.dev/sitemap.xml

@@ -1,0 +1,32 @@
+{
+  "name": "cyber-rayuela",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Rayuela: El Lector Cómplice — Experiencia de lectura interactiva cyberpunk de la novela de Julio Cortázar",
+  "author": "Juan Tomoo",
+  "license": "GPL-3.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0",
+    "pinia": "^3.0.0",
+    "marked": "^15.0.0",
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.0",
+    "vite": "^6.2.0",
+    "vite-plugin-pwa": "^0.21.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "workbox-window": "^7.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
