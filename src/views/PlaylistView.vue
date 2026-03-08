@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, provide } from 'vue'
+import { ref, onMounted, onUnmounted, provide, nextTick } from 'vue'
 import playlistData from '@/data/playlist.json'
 
 const tracks = playlistData.tracks
@@ -141,11 +141,16 @@ function createPlayer(videoId) {
   })
 }
 
-function playTrack(idx) {
+async function playTrack(idx) {
   if (idx < 0 || idx >= tracks.length) return
   currentIndex.value = idx
   currentTrack.value = tracks[idx]
-  
+
+  // The #yt-player div is inside v-if="currentTrack" — Vue hasn't rendered
+  // it yet at this point. We MUST wait for the DOM update before YT.Player
+  // can find the element.
+  await nextTick()
+
   if (ytReady) {
     createPlayer(tracks[idx].videoId)
   } else {

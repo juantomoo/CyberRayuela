@@ -80,50 +80,56 @@ export function useTTS() {
   }
 
   function speakParagraphs(paragraphs) {
-    stop()
+    // synth.cancel() is synchronous — no need to defer.
+    // IMPORTANT: Chrome requires synth.speak() in the same call stack as the
+    // user gesture click. A setTimeout would break that requirement and cause
+    // silent failure.
+    synth.cancel()
+    isPlaying.value = false
+    isPaused.value = false
+    currentParagraph.value = -1
+    stopKeepAlive()
+
     if (!paragraphs || paragraphs.length === 0) return
 
-    // Wait a tick for stop() to flush the queue before queuing new utterances
-    setTimeout(() => {
-      let index = 0
-      isPlaying.value = true
-      startKeepAlive()
+    let index = 0
+    isPlaying.value = true
+    startKeepAlive()
 
-      function speakNext() {
-        if (index >= paragraphs.length || !isPlaying.value) {
-          stopKeepAlive()
-          isPlaying.value = false
-          currentParagraph.value = -1
-          return
-        }
-
-        const text = paragraphs[index]
-        if (!text.trim()) { index++; speakNext(); return }
-
-        currentParagraph.value = index
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.lang = 'es-ES'
-        utterance.rate = settings.ttsRate
-        if (selectedVoice.value) {
-          utterance.voice = selectedVoice.value
-        }
-
-        utterance.onend = () => {
-          if (!isPlaying.value) return
-          index++
-          speakNext()
-        }
-        utterance.onerror = (e) => {
-          if (e.error === 'interrupted') return
-          index++
-          if (isPlaying.value) speakNext()
-        }
-
-        synth.speak(utterance)
+    function speakNext() {
+      if (index >= paragraphs.length || !isPlaying.value) {
+        stopKeepAlive()
+        isPlaying.value = false
+        currentParagraph.value = -1
+        return
       }
 
-      speakNext()
-    }, 100)
+      const text = paragraphs[index]
+      if (!text.trim()) { index++; speakNext(); return }
+
+      currentParagraph.value = index
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'es-ES'
+      utterance.rate = settings.ttsRate
+      if (selectedVoice.value) {
+        utterance.voice = selectedVoice.value
+      }
+
+      utterance.onend = () => {
+        if (!isPlaying.value) return
+        index++
+        speakNext()
+      }
+      utterance.onerror = (e) => {
+        if (e.error === 'interrupted') return
+        index++
+        if (isPlaying.value) speakNext()
+      }
+
+      synth.speak(utterance)
+    }
+
+    speakNext()
   }
 
   function pause() {
