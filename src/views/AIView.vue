@@ -19,6 +19,7 @@
         Cap. {{ selectedChapter }} cargado como contexto
       </span>
       <div class="flex-1"></div>
+      <span v-if="activeProvider" class="font-mono text-xs text-neon-cyan/60">⚡ {{ activeProvider }}</span>
       <button @click="clearChat" class="font-mono text-xs text-cyber-text-dim hover:text-neon-pink">
         Limpiar chat
       </button>
@@ -50,6 +51,7 @@
           <span :class="msg.role === 'user' ? 'text-neon-cyan' : 'text-neon-pink'" class="text-xs font-display tracking-wider">
             {{ msg.role === 'user' ? 'TÚ' : 'IA' }}
           </span>
+          <span v-if="msg.provider" class="text-xs text-cyber-text-dim font-mono ml-1 opacity-60">· {{ msg.provider }}</span>
         </div>
         <div v-html="renderMarkdown(msg.text)" class="ai-response"></div>
       </div>
@@ -84,7 +86,7 @@ import { useGemini } from '@/composables/useGemini'
 import { useChapters } from '@/composables/useChapters'
 import { marked } from 'marked'
 
-const { messages, loading, error, sendMessage, clearMessages } = useGemini()
+const { messages, loading, error, activeProvider, sendMessage, clearMessages } = useGemini()
 const { loadChapter, getPlainText } = useChapters()
 
 const userInput = ref('')

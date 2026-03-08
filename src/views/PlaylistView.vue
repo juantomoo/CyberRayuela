@@ -131,6 +131,11 @@ function createPlayer(videoId) {
         if (event.data === window.YT.PlayerState.ENDED) {
           nextTrack()
         }
+      },
+      onError: (event) => {
+        // 2=bad param, 5=HTML5, 100=not found, 101/150=not embeddable
+        console.warn(`[YT] Error ${event.data} — "${currentTrack.value?.title}" no disponible, saltando...`)
+        setTimeout(() => nextTrack(), 800)
       }
     }
   })
