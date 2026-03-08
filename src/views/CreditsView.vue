@@ -79,7 +79,7 @@
     <!-- Footer tagline -->
     <div class="mt-12 pt-6 border-t border-cyber-border text-center">
       <p class="font-display text-xs text-cyber-text-dim tracking-widest">
-        CYBER<span class="text-neon-pink">//</span>RAYUELA — 2025
+        CYBER<span class="text-neon-pink">//</span>RAYUELA — 2026
       </p>
     </div>
   </div>
