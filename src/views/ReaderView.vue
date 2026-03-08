@@ -62,11 +62,13 @@
     </div>
     
     <article v-else class="chapter-content mb-12">
-      <div v-for="(para, idx) in renderedParagraphs" :key="idx"
-        :class="{ 'tts-active': tts.currentParagraph.value === idx }"
-        :ref="el => { if (tts.currentParagraph.value === idx) scrollToActive(el) }"
-        v-html="para">
-      </div>
+      <p v-for="(para, pIdx) in paragraphs" :key="pIdx" class="tts-paragraph">
+        <template v-for="(tok, tIdx) in tokenize(para)" :key="tIdx">
+          <span v-if="tok.isWord"
+            :class="{ 'tts-word-active': tts.currentParagraph.value === pIdx && tts.currentWordIndex.value === tok.wordIdx }"
+            :ref="el => onWordRef(el, pIdx, tok.wordIdx)">{{ tok.text }}</span><template v-else>{{ tok.text }}</template>
+        </template>
+      </p>
     </article>
     
     <!-- Navigation buttons -->
@@ -146,7 +148,6 @@ import { useReadingStore } from '@/stores/reading'
 import { useNotesStore } from '@/stores/notes'
 import { useChapters } from '@/composables/useChapters'
 import { useTTS } from '@/composables/useTTS'
-import { marked } from 'marked'
 import TTSControls from '@/components/TTSControls.vue'
 
 const route = useRoute()
@@ -164,14 +165,41 @@ const newNoteText = ref('')
 // Computed
 const paragraphs = computed(() => chapters.getParagraphs())
 
-const renderedParagraphs = computed(() => {
-  const plain = chapters.getPlainText()
-  if (!plain) return []
-  return plain.split(/\n\s*\n/)
-    .map(p => p.trim())
-    .filter(p => p.length > 0)
-    .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
-})
+/**
+ * Tokenize a paragraph string into an array of
+ * { text, isWord, wordIdx } tokens, preserving whitespace.
+ */
+function tokenize(text) {
+  const tokens = []
+  const re = /(\S+)/g
+  let last = 0
+  let wordIdx = 0
+  let m
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) tokens.push({ text: text.slice(last, m.index), isWord: false })
+    tokens.push({ text: m[0], isWord: true, wordIdx: wordIdx++ })
+    last = m.index + m[0].length
+  }
+  if (last < text.length) tokens.push({ text: text.slice(last), isWord: false })
+  return tokens
+}
+
+/**
+ * Scroll to the active word only when it leaves the visible viewport.
+ * Uses block:'nearest' to avoid violent mid-page jumps.
+ */
+function onWordRef(el, pIdx, wIdx) {
+  if (!el) return
+  if (tts.currentParagraph.value !== pIdx || tts.currentWordIndex.value !== wIdx) return
+
+  const rect = el.getBoundingClientRect()
+  const bottomLimit = window.innerHeight - 72 // leave room for music bar
+  const inView = rect.top >= 56 && rect.bottom <= bottomLimit // 56 = nav height
+
+  if (!inView) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }
+}
 
 const chapterNotes = computed(() => notesStore.getNotesForChapter(reading.currentChapter))
 
@@ -196,14 +224,6 @@ function playTTS() {
   const paras = paragraphs.value
   if (paras.length > 0) {
     tts.speakParagraphs(paras)
-  }
-}
-
-function scrollToActive(el) {
-  if (el) {
-    nextTick(() => {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    })
   }
 }
 

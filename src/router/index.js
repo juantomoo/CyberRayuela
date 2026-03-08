@@ -18,9 +18,9 @@ const routes = [
     component: () => import('@/views/MapView.vue')
   },
   {
-    path: '/musica',
-    name: 'playlist',
-    component: () => import('@/views/PlaylistView.vue')
+    path: '/creditos',
+    name: 'credits',
+    component: () => import('@/views/CreditsView.vue')
   },
   {
     path: '/morelli',

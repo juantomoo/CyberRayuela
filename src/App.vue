@@ -58,8 +58,8 @@
     <!-- La Maga Random Button -->
     <RandomButton />
     
-    <!-- Mini Music Player -->
-    <MiniPlayer />
+    <!-- Persistent Music Bar -->
+    <MusicBar />
   </div>
 </template>
 
@@ -67,7 +67,7 @@
 import { ref } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
 import RandomButton from '@/components/RandomButton.vue'
-import MiniPlayer from '@/components/MiniPlayer.vue'
+import MusicBar from '@/components/MusicBar.vue'
 
 const settings = useSettingsStore()
 const mobileMenu = ref(false)
@@ -75,7 +75,7 @@ const mobileMenu = ref(false)
 const navLinks = [
   { to: '/leer', label: 'Leer' },
   { to: '/mapa', label: 'Mapa' },
-  { to: '/musica', label: 'Música' },
+  { to: '/creditos', label: 'Créditos' },
   { to: '/morelli', label: 'Morelli' },
   { to: '/ia', label: 'IA' }
 ]
