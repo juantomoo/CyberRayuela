@@ -58,15 +58,15 @@ const props = defineProps({
   voices: { type: Array, default: () => [] }
 })
 
-defineEmits(['play', 'stop'])
+const emit = defineEmits(['play', 'stop', 'pause', 'resume'])
 
 const settings = useSettingsStore()
 
 function pause() {
-  window.speechSynthesis.pause()
+  emit('pause')
 }
 
 function resume() {
-  window.speechSynthesis.resume()
+  emit('resume')
 }
 </script>

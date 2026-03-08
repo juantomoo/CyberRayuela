@@ -32,7 +32,7 @@
           Pregúntame sobre <em>Rayuela</em>, sus personajes, estructura o simbolismo.
         </p>
         <div class="flex flex-wrap justify-center gap-2">
-          <button v-for="s in suggestions" :key="s" @click="sendMessage(s)"
+          <button v-for="s in suggestions" :key="s" @click="submitMessage(s)"
             class="font-mono text-xs text-neon-cyan border border-neon-cyan/30 px-3 py-1.5 rounded hover:bg-neon-cyan/10 transition-colors">
             {{ s }}
           </button>
@@ -65,7 +65,7 @@
     </div>
 
     <!-- Input -->
-    <form @submit.prevent="sendMessage(userInput)" class="flex gap-2">
+    <form @submit.prevent="submitMessage(userInput)" class="flex gap-2">
       <input v-model="userInput" :disabled="loading" placeholder="Escribe tu pregunta sobre Rayuela..."
         class="flex-1 bg-cyber-dark border border-cyber-border text-cyber-text font-mono px-4 py-3 rounded-lg focus:border-neon-pink focus:outline-none disabled:opacity-50" />
       <button type="submit" :disabled="loading || !userInput.trim()" class="btn-neon px-6 disabled:opacity-30">
@@ -84,7 +84,7 @@ import { useGemini } from '@/composables/useGemini'
 import { useChapters } from '@/composables/useChapters'
 import { marked } from 'marked'
 
-const { messages, loading, error, sendPrompt, clearChat: clearGemini } = useGemini()
+const { messages, loading, error, sendMessage, clearMessages } = useGemini()
 const { loadChapter, getPlainText } = useChapters()
 
 const userInput = ref('')
@@ -99,26 +99,26 @@ const suggestions = [
   '¿Quién es Morelli?'
 ]
 
-async function sendMessage(text) {
+async function submitMessage(text) {
   if (!text?.trim()) return
   userInput.value = ''
 
-  let chapterContext = ''
+  let chapterContext = null
   if (selectedChapter.value) {
     await loadChapter(selectedChapter.value)
-    const plain = getPlainText(selectedChapter.value)
+    const plain = getPlainText()
     if (plain) {
-      chapterContext = `[Contexto: Capítulo ${selectedChapter.value}]\n${plain.slice(0, 3000)}\n\n`
+      chapterContext = { number: selectedChapter.value, text: plain.slice(0, 3000) }
     }
   }
 
-  await sendPrompt(chapterContext + text)
+  await sendMessage(text, chapterContext)
   await nextTick()
   scrollToBottom()
 }
 
 function clearChat() {
-  clearGemini()
+  clearMessages()
 }
 
 function scrollToBottom() {

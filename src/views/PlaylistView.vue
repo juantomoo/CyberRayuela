@@ -67,6 +67,7 @@ const currentIndex = ref(-1)
 const isPlaying = ref(false)
 let player = null
 let ytReady = false
+let pendingVideoId = null
 
 const currentTrack = ref(null)
 
@@ -93,12 +94,20 @@ function loadYTAPI() {
   }
 }
 
+let playerReady = false
+
 function createPlayer(videoId) {
-  if (player) {
+  if (player && playerReady) {
     player.loadVideoById(videoId)
     return
   }
-  
+  if (player && !playerReady) {
+    // Player is still initializing — queue the video
+    pendingVideoId = videoId
+    return
+  }
+
+  playerReady = false
   player = new window.YT.Player('yt-player', {
     videoId,
     playerVars: {
@@ -108,6 +117,15 @@ function createPlayer(videoId) {
       color: 'white'
     },
     events: {
+      onReady: () => {
+        playerReady = true
+        if (pendingVideoId) {
+          player.loadVideoById(pendingVideoId)
+          pendingVideoId = null
+        } else {
+          player.playVideo()
+        }
+      },
       onStateChange: (event) => {
         isPlaying.value = event.data === window.YT.PlayerState.PLAYING
         if (event.data === window.YT.PlayerState.ENDED) {
@@ -137,7 +155,7 @@ function playTrack(idx) {
 }
 
 function togglePlay() {
-  if (!player) {
+  if (!player || !playerReady) {
     if (tracks.length > 0) playTrack(0)
     return
   }
@@ -171,6 +189,8 @@ onUnmounted(() => {
   if (player && player.destroy) {
     player.destroy()
     player = null
+    playerReady = false
+    pendingVideoId = null
   }
 })
 </script>

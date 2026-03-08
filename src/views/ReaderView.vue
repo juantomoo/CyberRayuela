@@ -49,7 +49,7 @@
     <!-- TTS Controls -->
     <TTSControls :paragraphs="paragraphs" :currentParagraph="tts.currentParagraph.value"
       :isPlaying="tts.isPlaying.value" :isPaused="tts.isPaused.value" :voices="tts.voices.value"
-      @play="playTTS" @stop="tts.stop()" />
+      @play="playTTS" @stop="tts.stop()" @pause="tts.pause()" @resume="tts.resume()" />
     
     <!-- Chapter content -->
     <div v-if="chapters.loading.value" class="text-center py-20">
